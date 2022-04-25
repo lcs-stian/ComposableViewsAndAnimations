@@ -15,8 +15,16 @@ struct ExerciseOneView: View {
     // Controls whether this view is showing or not
     @Binding var showThisView: Bool
         
-    // Whether to apply the animation
-    @State private var useAnimation = false
+    // Whether to apply the animation 
+    @State private var useAnimation = true
+    
+    // Controls the size of the circle
+    @State private var scaleFactor: CGFloat = 1.0
+    
+    
+    // Controls the hue of the circle
+    @State private var hue: Color = .red
+    
 
     // MARK: Computed properties
 
@@ -29,6 +37,27 @@ struct ExerciseOneView: View {
                 Circle()
                     .frame(width: 200, height: 200)
                     .foregroundColor(.blue)
+                    .scaleEffect(scaleFactor)
+                    .animation(
+                        Animation
+                            .easeOut(duration: 2.0)
+                            .repeatForever(autoreverses: (2 != 0))
+                    )
+                    .onTapGesture {
+                        //change the scaleFactor
+                         scaleFactor = 2.0
+                    }
+                
+                    // This is an implicit animation.
+                    // The change in state (scaleFactor) is animated since the .animation view
+                    // modifier is listed AFTER the view modifier where scaleFactor is changed.
+                    //
+                    // NOTE: A ternary conditional operator is used to control whether the state
+                    // change is animated or not.
+                    // When useAnimation is true, the default animation effect will be used.
+                    // When useAnimation is false, there will be no animation.
+                   .animation(useAnimation ? .default : .none)
+                
                 
             }
             .navigationTitle("Exercise 1")

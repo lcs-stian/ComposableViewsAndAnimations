@@ -18,6 +18,10 @@ struct ExerciseTwoView: View {
     // Whether to apply the animation
     @State private var useAnimation = false
 
+    
+    // Controls what typeface the text is shown in
+    @State private var typeFace: String = "Helvetica-Neue"
+
     // MARK: Computed properties
 
     var body: some View {
