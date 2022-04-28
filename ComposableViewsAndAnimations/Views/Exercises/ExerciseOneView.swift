@@ -21,6 +21,8 @@ struct ExerciseOneView: View {
     // Controls the size of the circle
     @State private var scaleFactor: CGFloat = 1.0
     
+    //Starting postion for the star (initial state)
+    @State var yOffset = 0
     
     // Controls the hue of the circle
     @State private var hue: Color = .red
@@ -38,11 +40,13 @@ struct ExerciseOneView: View {
                     .frame(width: 200, height: 200)
                     .foregroundColor(.blue)
                     .scaleEffect(scaleFactor)
-                    .animation(
-                        Animation
-                            .easeOut(duration: 2.0)
-                            .repeatForever(autoreverses: (2 != 0))
-                    )
+                    .offset(x: 0, y:CGFloat(yOffset) )
+                
+                .animation(
+                    Animation
+                        .easeInOut(duration: 2)
+                        .repeatCount(5,autoreverses: true)
+                )
                     .onTapGesture {
                         //change the scaleFactor
                          scaleFactor = 2.0
