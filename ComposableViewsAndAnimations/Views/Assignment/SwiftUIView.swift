@@ -18,13 +18,7 @@ struct CustomComposableView2: View {
     
     @State private var scaleFactor2: CGFloat = 0.0
     
-    
-    let style = StrokeStyle(lineWidth: 15,
-                            lineCap: .butt,
-                            lineJoin: .round,
-                            miterLimit: 1,
-                            dash: [],
-                            dashPhase: 0)
+    @State private var phase: CGFloat = 0
     
     
     var body: some View {
@@ -32,19 +26,21 @@ struct CustomComposableView2: View {
         ZStack{
             
             Image (systemName: "heart.fill")
+                
                 .foregroundColor(Color(.systemGray))
                 .scaleEffect(scaleFactor)
             
             Image (systemName: "heart")
+    
                 .foregroundColor(Color(.systemRed))
                 .scaleEffect(scaleFactor2)
-            
-            //.strokeBorder(style: style)
-            //               .onAppear {
-            //                  withAnimation(.linear.repeatForever(autoreverses: false)) {
-            //                       phase -= 20
-            //                   }
-            //                }
+                .padding()
+                .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.red, lineWidth: 5)
+                    )
+                    .shadow(color: .red, radius: 5, x: 20, y: 20)
+               
             
                 .onTapGesture {
                     if scaleFactor == 1.0 {
