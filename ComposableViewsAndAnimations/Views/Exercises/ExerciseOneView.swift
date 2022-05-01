@@ -18,14 +18,15 @@ struct ExerciseOneView: View {
     // Whether to apply the animation 
     @State private var useAnimation = true
     
+    
     // Controls the size of the circle
     @State private var scaleFactor: CGFloat = 1.0
     
-    //Starting postion for the star (initial state)
-    @State var yOffset = 0
+    //initial state
+    @State private var yOffset: CGFloat = 50.0
     
     // Controls the hue of the circle
-    @State private var hue: Color = .red
+    @State private var hue: Color = .green
     
 
     // MARK: Computed properties
@@ -37,30 +38,30 @@ struct ExerciseOneView: View {
             VStack {
 
                 Circle()
-                    .frame(width: 200, height: 200)
-                    .foregroundColor(.blue)
+                    .foregroundColor(hue)
                     .scaleEffect(scaleFactor)
-                    .offset(x: 0, y:CGFloat(yOffset) )
-                
-                .animation(
-                    Animation
-                        .easeInOut(duration: 2)
-                        .repeatCount(5,autoreverses: true)
-                )
+                    .offset(x: 0, y: yOffset)
                     .onTapGesture {
-                        //change the scaleFactor
-                         scaleFactor = 2.0
+                        withAnimation(.easeInOut(duration: 2)) {
+                            
+                            hue = Color(hue: Double.random(in: 1...360) / 360.0,
+                                        saturation: 0.8,
+                                        brightness: 0.8)
+                            
+                            yOffset -= 50
+                            
+                            if scaleFactor > 0.5 {
+                               
+                                scaleFactor -= 0.25
+                            } else {
+                                
+                                scaleFactor = 1
+                            }
+                            
+                            
+                        }
                     }
-                
-                    // This is an implicit animation.
-                    // The change in state (scaleFactor) is animated since the .animation view
-                    // modifier is listed AFTER the view modifier where scaleFactor is changed.
-                    //
-                    // NOTE: A ternary conditional operator is used to control whether the state
-                    // change is animated or not.
-                    // When useAnimation is true, the default animation effect will be used.
-                    // When useAnimation is false, there will be no animation.
-                   .animation(useAnimation ? .default : .none)
+            
                 
                 
             }
